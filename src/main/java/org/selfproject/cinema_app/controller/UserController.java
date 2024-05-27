@@ -55,7 +55,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/api/users/favorite")
+    @PutMapping("/api/users/favorite/{movieId}")
     public ResponseEntity<UserEntity> addToFavorite(@RequestBody String movieId) {
         Long userId = getUserId(); // Assuming you have a method to retrieve the user ID
         UserEntity existingUser = userRepository.findById(userId).orElse(null);
