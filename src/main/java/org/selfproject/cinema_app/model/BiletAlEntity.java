@@ -13,18 +13,35 @@ public class BiletAlEntity {
     private String secilenSinema;
     private String secilenTarih;
     private String secilenSeans;
-    private int ogrenciBiletSayisi;
-    private int tamBiletSayisi;
+    private Integer ogrenciBiletSayisi;
+    private Integer tamBiletSayisi;
+    private String secilenKoltuklar;
+
 
     public BiletAlEntity() {
     }
 
-    public BiletAlEntity(String secilenSinema, String secilenTarih, String secilenSeans, int ogrenciBiletSayisi, int tamBiletSayisi) {
+    public BiletAlEntity(Long id, String secilenSinema, String secilenTarih, String secilenSeans, Integer ogrenciBiletSayisi, Integer tamBiletSayisi, String secilenKoltuklar) {
+        this.id = id;
         this.secilenSinema = secilenSinema;
         this.secilenTarih = secilenTarih;
         this.secilenSeans = secilenSeans;
         this.ogrenciBiletSayisi = ogrenciBiletSayisi;
         this.tamBiletSayisi = tamBiletSayisi;
+        this.secilenKoltuklar = secilenKoltuklar;
+    }
+
+    @Override
+    public String toString() {
+        return "BiletAlEntity{" +
+                "id=" + id +
+                ", secilenSinema='" + secilenSinema + '\'' +
+                ", secilenTarih='" + secilenTarih + '\'' +
+                ", secilenSeans='" + secilenSeans + '\'' +
+                ", ogrenciBiletSayisi=" + ogrenciBiletSayisi +
+                ", tamBiletSayisi=" + tamBiletSayisi +
+                ", secilenKoltuklar='" + secilenKoltuklar + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -59,31 +76,27 @@ public class BiletAlEntity {
         this.secilenSeans = secilenSeans;
     }
 
-    public int getOgrenciBiletSayisi() {
+    public Integer getOgrenciBiletSayisi() {
         return ogrenciBiletSayisi;
     }
 
-    public void setOgrenciBiletSayisi(int ogrenciBiletSayisi) {
+    public void setOgrenciBiletSayisi(Integer ogrenciBiletSayisi) {
         this.ogrenciBiletSayisi = ogrenciBiletSayisi;
     }
 
-    public int getTamBiletSayisi() {
+    public Integer getTamBiletSayisi() {
         return tamBiletSayisi;
     }
 
-    public void setTamBiletSayisi(int tamBiletSayisi) {
+    public void setTamBiletSayisi(Integer tamBiletSayisi) {
         this.tamBiletSayisi = tamBiletSayisi;
     }
 
-    @Override
-    public String toString() {
-        return "BiletAlEntity{" +
-                "id=" + id +
-                ", secilenSinema='" + secilenSinema + '\'' +
-                ", secilenTarih='" + secilenTarih + '\'' +
-                ", secilenSeans='" + secilenSeans + '\'' +
-                ", ogrenciBiletSayisi=" + ogrenciBiletSayisi +
-                ", tamBiletSayisi=" + tamBiletSayisi +
-                '}';
+    public String getSecilenKoltuklar() {
+        return secilenKoltuklar;
+    }
+
+    public void setSecilenKoltuklar(String secilenKoltuklar) {
+        this.secilenKoltuklar = secilenKoltuklar;
     }
 }
