@@ -14,7 +14,9 @@ import java.util.List;
 @RequestMapping("/api/biletal")
 public class BiletAlController {
 
-    @Autowired
+    public BiletAlController(BiletAlRepository biletAlRepository){
+        this.biletAlRepository = biletAlRepository;
+    }
     private BiletAlRepository biletAlRepository;
 
     @PostMapping
