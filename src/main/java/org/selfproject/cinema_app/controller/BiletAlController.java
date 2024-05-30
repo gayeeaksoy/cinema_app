@@ -14,10 +14,11 @@ import java.util.List;
 @RequestMapping("/api/biletal")
 public class BiletAlController {
 
+    private final BiletAlRepository biletAlRepository;
+
     public BiletAlController(BiletAlRepository biletAlRepository){
         this.biletAlRepository = biletAlRepository;
     }
-    private BiletAlRepository biletAlRepository;
 
     @PostMapping
     public ResponseEntity<BiletAlEntity> saveSelection(@RequestBody BiletAlEntity biletAlEntity) {
