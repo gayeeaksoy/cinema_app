@@ -13,21 +13,12 @@ public class UserEntity {
         private String email;
         private String password;
         private String role;
-        private String surname;
         private String favoriteList;
 
     public UserEntity() {
+        this.role = "USER";
     }
 
-    public UserEntity(Long id, String name, String email, String password, String role,String surname, String favoriteList) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.surname = surname;
-        this.favoriteList = favoriteList;
-    }
 
     public Long getId() {
         return id;
@@ -61,21 +52,8 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
     public String getFavoriteList() {return favoriteList;}
     public void setFavoriteList(String favoriteList) {this.favoriteList = favoriteList;}
 
@@ -87,7 +65,6 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
-                ", surname='" + surname + '\'' +
                 "deneme='" + favoriteList + '\'' +
                 '}';
     }
