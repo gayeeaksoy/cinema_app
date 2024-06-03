@@ -2,7 +2,6 @@ package org.selfproject.cinema_app.controller;
 
 import org.selfproject.cinema_app.model.BiletAlEntity;
 import org.selfproject.cinema_app.repository.BiletAlRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,14 +37,14 @@ public class BiletAlController {
     @GetMapping("/get/{id}")
     public ResponseEntity<BiletAlEntity> getBiletAlById(@PathVariable Long id) {
         BiletAlEntity biletAl = biletAlRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("BiletAlEntity not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("BiletAlEntity not found with id: " + id));
         return ResponseEntity.ok(biletAl);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<BiletAlEntity> updateBiletAl(@PathVariable Long id, @RequestBody BiletAlEntity biletAlDetails) {
         BiletAlEntity biletAl = biletAlRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("BiletAlEntity not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("BiletAlEntity not found with id: " + id));
 
         biletAl.setSecilenSinema(biletAlDetails.getSecilenSinema());
         biletAl.setSecilenTarih(biletAlDetails.getSecilenTarih());

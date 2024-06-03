@@ -33,7 +33,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/api/users")
+    @PostMapping("/api/users/signup")
     public ResponseEntity<UserEntity> userSignup(@RequestBody UserEntity userEntity){
         return new ResponseEntity<>(userRepository.save(userEntity), HttpStatus.CREATED);
     }
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PutMapping("/api/users/favorite/{movieId}")
-    public ResponseEntity<UserEntity> addToFavorite(@RequestBody String movieId) {
+    public ResponseEntity<UserEntity> addToFavorite(@PathVariable String movieId) {
         Long userId = getUserId(); // Assuming you have a method to retrieve the user ID
         UserEntity existingUser = userRepository.findById(userId).orElse(null);
 
@@ -77,19 +77,5 @@ public class UserController {
         UserEntity savedUser = userRepository.save(existingUser);
         return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

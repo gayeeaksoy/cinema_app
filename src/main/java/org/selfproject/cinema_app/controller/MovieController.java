@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
@@ -26,7 +28,7 @@ public class MovieController {
     }
 
 
-    @PutMapping("/api/movies/{id}")
+    @PutMapping("/api/movies/{name}")
     public ResponseEntity<MovieEntity> updateMovie(@PathVariable String name, @RequestBody MovieEntity movieEntity){
         MovieEntity optionalMovieEntity = movieRepository.findByName(name);
         if(optionalMovieEntity != null){
@@ -61,6 +63,10 @@ public class MovieController {
         }
     }
 
+    @GetMapping("/api/movies")
+    public ResponseEntity<List<MovieEntity>> getAllMovie(){
+        return new ResponseEntity<>(movieRepository.findAll(),HttpStatus.OK);
 
+    }
 
 }
