@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.util.List;
 
 
@@ -83,6 +84,7 @@ public class MovieController {
 
     @GetMapping("/api/movies")
     public ResponseEntity<List<MovieEntity>> getAllMovie(){
+        System.out.println("Get all movies");
         return new ResponseEntity<>(movieRepository.findAll(),HttpStatus.OK);
 
     }

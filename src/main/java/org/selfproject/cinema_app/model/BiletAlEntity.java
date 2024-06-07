@@ -1,15 +1,21 @@
 package org.selfproject.cinema_app.model;
 
 import jakarta.persistence.*;
+import org.selfproject.cinema_app.controller.UserController;
+import org.selfproject.cinema_app.repository.UserRepository;
 
 @Entity
 @Table(name = "BiletAl")
 public class BiletAlEntity {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
+    private Long secilenFilm;
     private String secilenSinema;
     private String secilenTarih;
     private String secilenSeans;
@@ -18,11 +24,10 @@ public class BiletAlEntity {
     private String secilenKoltuklar;
 
 
-    public BiletAlEntity() {
-    }
 
-    public BiletAlEntity(Long id, String secilenSinema, String secilenTarih, String secilenSeans, Integer ogrenciBiletSayisi, Integer tamBiletSayisi, String secilenKoltuklar) {
+    public BiletAlEntity(Long id, Long secilenFilm, String secilenSinema, String secilenTarih, String secilenSeans, Integer ogrenciBiletSayisi, Integer tamBiletSayisi, String secilenKoltuklar) {
         this.id = id;
+        this.secilenFilm = secilenFilm;
         this.secilenSinema = secilenSinema;
         this.secilenTarih = secilenTarih;
         this.secilenSeans = secilenSeans;
@@ -31,10 +36,15 @@ public class BiletAlEntity {
         this.secilenKoltuklar = secilenKoltuklar;
     }
 
+    public BiletAlEntity() {
+
+    }
+
     @Override
     public String toString() {
         return "BiletAlEntity{" +
                 "id=" + id +
+                ", secilenFilm='" + secilenFilm + '\'' +
                 ", secilenSinema='" + secilenSinema + '\'' +
                 ", secilenTarih='" + secilenTarih + '\'' +
                 ", secilenSeans='" + secilenSeans + '\'' +
@@ -99,4 +109,21 @@ public class BiletAlEntity {
     public void setSecilenKoltuklar(String secilenKoltuklar) {
         this.secilenKoltuklar = secilenKoltuklar;
     }
+
+    public Long getSecilenFilm() {
+        return secilenFilm;
+    }
+    public void setSecilenFilm(Long secilenFilm) {
+        this.secilenFilm = secilenFilm;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+
 }

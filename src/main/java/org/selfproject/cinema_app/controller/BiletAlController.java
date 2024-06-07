@@ -13,16 +13,21 @@ import java.util.List;
 @RequestMapping("/api/biletal")
 public class BiletAlController {
 
+    private final UserController userController;
+
     private final BiletAlRepository biletAlRepository;
 
-    public BiletAlController(BiletAlRepository biletAlRepository){
+    public BiletAlController(BiletAlRepository biletAlRepository, UserController userController){
         this.biletAlRepository = biletAlRepository;
+        this.userController = userController;
     }
 
     @PostMapping
     public ResponseEntity<BiletAlEntity> saveSelection(@RequestBody BiletAlEntity biletAlEntity) {
         try {
+            biletAlEntity.setUserId(userController.getUserId());
             BiletAlEntity savedEntity = biletAlRepository.save(biletAlEntity);
+            System.out.println(biletAlEntity.toString());
             return new ResponseEntity<>(savedEntity, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
