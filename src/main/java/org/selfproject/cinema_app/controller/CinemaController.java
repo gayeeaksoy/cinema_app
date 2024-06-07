@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class CinemaController {
 
@@ -39,8 +41,6 @@ public class CinemaController {
             CinemaEntity existingCinemaEntity = optionalCinemaEntity;
             existingCinemaEntity.setName(cinemaEntity.getName());
             existingCinemaEntity.setCapacity(cinemaEntity.getCapacity());
-            existingCinemaEntity.setHours(cinemaEntity.getHours());
-            existingCinemaEntity.setImax(cinemaEntity.getImax());
             existingCinemaEntity.setPrice(cinemaEntity.getPrice());
             existingCinemaEntity.setPlayingMovies(cinemaEntity.getPlayingMovies());
             CinemaEntity updatedCinemaEntity = cinemaRepository.save(existingCinemaEntity);
@@ -61,10 +61,10 @@ public class CinemaController {
 
 
 
-    @PostMapping("/api/cinemas/{cinemaId}/movies/{movieId}")
-    public ResponseEntity<CinemaEntity> addMovieToCinema(@PathVariable Long cinemaId, @PathVariable Long movieId) {
+   @PostMapping("/api/cinemas/{cinemaId}/movies/{movieName}")
+    public ResponseEntity<CinemaEntity> addMovieToCinema(@PathVariable Long cinemaId, @PathVariable String movieName) {
         CinemaEntity cinemaEntity = cinemaRepository.findById(cinemaId).orElseThrow(() -> new RuntimeException("Cinema not found with id: " + cinemaId));
-        MovieEntity movieEntity = movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found with id: " + movieId));
+        MovieEntity movieEntity = movieRepository.findByName(movieName).orElseThrow(() -> new RuntimeException("Movie not found with name: " + movieName));
         cinemaEntity.getPlayingMovies().add(movieEntity);
         return new ResponseEntity<>(cinemaRepository.save(cinemaEntity), HttpStatus.OK);
     }

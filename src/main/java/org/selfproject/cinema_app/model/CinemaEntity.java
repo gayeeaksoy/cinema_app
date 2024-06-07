@@ -13,8 +13,6 @@ public class CinemaEntity {
     private Long id;
     private String name;
     private Integer capacity;
-    private String hours;
-    private Boolean imax;
     private Double price;
     @ManyToMany
     @JoinTable(
@@ -25,11 +23,10 @@ public class CinemaEntity {
 
 
 
-    public CinemaEntity(String name, Integer capacity, String hours, Boolean imax, Double price, List<MovieEntity> playingMovies) {
+    public CinemaEntity(String name, Integer capacity, Double price, List<MovieEntity> playingMovies) {
         this.name = name;
         this.capacity = capacity;
-        this.hours = hours;
-        this.imax = imax;
+
         this.price = price;
         this.playingMovies = playingMovies;
     }
@@ -58,22 +55,6 @@ public class CinemaEntity {
         this.capacity = capacity;
     }
 
-    public String getHours() {
-        return hours;
-    }
-
-    public void setHours(String hours) {
-        this.hours = hours;
-    }
-
-    public Boolean getImax() {
-        return imax;
-    }
-
-    public void setImax(Boolean imax) {
-        this.imax = imax;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -99,8 +80,6 @@ public class CinemaEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", capacity=" + capacity +
-                ", hours='" + hours + '\'' +
-                ", imax=" + imax +
                 ", price=" + price +
                 ", playingMovies=" + playingMovies +
                 '}';

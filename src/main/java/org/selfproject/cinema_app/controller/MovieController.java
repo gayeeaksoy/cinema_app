@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.Console;
 import java.util.List;
+import java.util.Optional;
 
 
 @CrossOrigin(origins="http://localhost:3000")
@@ -31,9 +32,10 @@ public class MovieController {
 
     @PutMapping("/api/movies/{name}")
     public ResponseEntity<MovieEntity> updateMovie(@PathVariable String name, @RequestBody MovieEntity movieEntity) {
-        MovieEntity existingMovieEntity = movieRepository.findByName(name);
+        Optional<MovieEntity> movieEntityOptional = movieRepository.findByName(name);
 
-        if (existingMovieEntity != null) {
+        if (movieEntityOptional.isPresent()) {
+            MovieEntity existingMovieEntity = movieEntityOptional.get();
             // Check each field and update only if it is not null
             if (movieEntity.getName() != null) {
                 existingMovieEntity.setName(movieEntity.getName());
@@ -73,9 +75,9 @@ public class MovieController {
 
     @DeleteMapping("/api/movies/{name}")
     public ResponseEntity<Void> deleteMovie(@PathVariable String name){
-        MovieEntity movieEntity = movieRepository.findByName(name);
-        if (movieEntity != null) {
-            movieRepository.delete(movieEntity);
+        Optional<MovieEntity> movieEntityOptional = movieRepository.findByName(name);
+        if (movieEntityOptional.isPresent()) {
+            movieRepository.delete(movieEntityOptional.get());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
