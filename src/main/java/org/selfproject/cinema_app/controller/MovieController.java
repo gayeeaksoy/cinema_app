@@ -29,27 +29,45 @@ public class MovieController {
 
 
     @PutMapping("/api/movies/{name}")
-    public ResponseEntity<MovieEntity> updateMovie(@PathVariable String name, @RequestBody MovieEntity movieEntity){
-        MovieEntity optionalMovieEntity = movieRepository.findByName(name);
-        if(optionalMovieEntity != null){
-            MovieEntity existingMovieEntity = optionalMovieEntity;
+    public ResponseEntity<MovieEntity> updateMovie(@PathVariable String name, @RequestBody MovieEntity movieEntity) {
+        MovieEntity existingMovieEntity = movieRepository.findByName(name);
 
-            existingMovieEntity.setName(movieEntity.getName());
-            existingMovieEntity.setDuration(movieEntity.getDuration());
-            existingMovieEntity.setGenre(movieEntity.getGenre());
-            existingMovieEntity.setRating(movieEntity.getRating());
-            existingMovieEntity.setCast(movieEntity.getCast());
-            existingMovieEntity.setDirector(movieEntity.getDirector());
-            existingMovieEntity.setImageLocation(movieEntity.getImageLocation());
-            existingMovieEntity.setReleaseDate(movieEntity.getReleaseDate());
+        if (existingMovieEntity != null) {
+            // Check each field and update only if it is not null
+            if (movieEntity.getName() != null) {
+                existingMovieEntity.setName(movieEntity.getName());
+            }
+            if (movieEntity.getDuration() != null) {
+                existingMovieEntity.setDuration(movieEntity.getDuration());
+            }
+            if (movieEntity.getGenre() != null) {
+                existingMovieEntity.setGenre(movieEntity.getGenre());
+            }
+            if (movieEntity.getRating() != null) {
+                existingMovieEntity.setRating(movieEntity.getRating());
+            }
+            if (movieEntity.getCast() != null) {
+                existingMovieEntity.setCast(movieEntity.getCast());
+            }
+            if (movieEntity.getDirector() != null) {
+                existingMovieEntity.setDirector(movieEntity.getDirector());
+            }
+            if (movieEntity.getImageLocation() != null) {
+                existingMovieEntity.setImageLocation(movieEntity.getImageLocation());
+            }
+            if (movieEntity.getReleaseDate() != null) {
+                existingMovieEntity.setReleaseDate(movieEntity.getReleaseDate());
+            }
 
             MovieEntity updatedMovieEntity = movieRepository.save(existingMovieEntity);
-            return new ResponseEntity<>(updatedMovieEntity,HttpStatus.OK);
-        }
-        else {
+            return new ResponseEntity<>(updatedMovieEntity, HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
 
 
     @DeleteMapping("/api/movies/{name}")
