@@ -1,8 +1,7 @@
 package org.selfproject.cinema_app.model;
 
 import jakarta.persistence.*;
-import org.selfproject.cinema_app.controller.UserController;
-import org.selfproject.cinema_app.repository.UserRepository;
+
 
 @Entity
 @Table(name = "BiletAl")
@@ -22,11 +21,13 @@ public class BiletAlEntity {
     private Integer ogrenciBiletSayisi;
     private Integer tamBiletSayisi;
     private String secilenKoltuklar;
+    private Double price;
 
 
 
-    public BiletAlEntity(Long id, Long secilenFilm, String secilenSinema, String secilenTarih, String secilenSeans, Integer ogrenciBiletSayisi, Integer tamBiletSayisi, String secilenKoltuklar) {
+    public BiletAlEntity(Long id, Double price,Long secilenFilm, String secilenSinema, String secilenTarih, String secilenSeans, Integer ogrenciBiletSayisi, Integer tamBiletSayisi, String secilenKoltuklar) {
         this.id = id;
+        this.price = price;
         this.secilenFilm = secilenFilm;
         this.secilenSinema = secilenSinema;
         this.secilenTarih = secilenTarih;
@@ -44,6 +45,7 @@ public class BiletAlEntity {
     public String toString() {
         return "BiletAlEntity{" +
                 "id=" + id +
+                ", price=" + price +
                 ", secilenFilm='" + secilenFilm + '\'' +
                 ", secilenSinema='" + secilenSinema + '\'' +
                 ", secilenTarih='" + secilenTarih + '\'' +
@@ -60,6 +62,14 @@ public class BiletAlEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getSecilenSinema() {

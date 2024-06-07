@@ -1,5 +1,6 @@
 package org.selfproject.cinema_app.controller;
 
+import org.selfproject.cinema_app.model.GlobalUserId;
 import org.selfproject.cinema_app.model.UserEntity;
 import org.selfproject.cinema_app.repository.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -17,17 +18,6 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    private Long userId;
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-
     private final UserRepository userRepository;
     public UserController(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -44,7 +34,8 @@ public class UserController {
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             if (user.getPassword().equals(userEntity.getPassword())) {
-                setUserId(user.getId());
+                GlobalUserId.getInstance().setUserId(user.getId());
+                System.out.println(GlobalUserId.getInstance().getUserId());
                 System.out.println("Login successful: " + user.toString()); // Kullanıcıyı konsola yaz
                 return ResponseEntity.ok(user); // Başarılı giriş
             } else {
@@ -57,7 +48,7 @@ public class UserController {
 
     @PutMapping("/api/users/favorite/{movieId}")
     public ResponseEntity<UserEntity> addToFavorite(@PathVariable String movieId) {
-        Long userId = getUserId(); // Assuming you have a method to retrieve the user ID
+        Long userId = GlobalUserId.getInstance().getUserId(); // Assuming you have a method to retrieve the user ID
         UserEntity existingUser = userRepository.findById(userId).orElse(null);
 
         if (existingUser == null) {

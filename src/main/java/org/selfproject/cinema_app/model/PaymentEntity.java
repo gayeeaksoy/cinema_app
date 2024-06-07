@@ -9,6 +9,8 @@ public class PaymentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Long userId;
     private Float amount;
     private String paymentMethod;
     private Integer cardNumber;
@@ -17,8 +19,9 @@ public class PaymentEntity {
     private String billingAddress;
 
 
-    public PaymentEntity(Float amount, String paymentMethod, Integer cardNumber, Integer expiry, Integer cvv, String billingAddress) {
+    public PaymentEntity(Float amount, Long userId, String paymentMethod, Integer cardNumber, Integer expiry, Integer cvv, String billingAddress) {
         this.amount = amount;
+        this.userId = userId;
         this.paymentMethod = paymentMethod;
         this.cardNumber = cardNumber;
         this.expiry = expiry;
@@ -82,11 +85,19 @@ public class PaymentEntity {
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
     }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {
         return "PaymentEntity{" +
                 "id=" + id +
+                ", userId='" + userId + '\'' +
                 ", amount='" + amount + '\'' +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", cardNumber='" + cardNumber + '\'' +

@@ -5,27 +5,26 @@ import org.selfproject.cinema_app.repository.BiletAlRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.selfproject.cinema_app.model.GlobalUserId;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
 @RequestMapping("/api/biletal")
 public class BiletAlController {
 
-    private final UserController userController;
-
     private final BiletAlRepository biletAlRepository;
 
-    public BiletAlController(BiletAlRepository biletAlRepository, UserController userController){
+    public BiletAlController(BiletAlRepository biletAlRepository){
         this.biletAlRepository = biletAlRepository;
-        this.userController = userController;
     }
 
     @PostMapping
     public ResponseEntity<BiletAlEntity> saveSelection(@RequestBody BiletAlEntity biletAlEntity) {
         try {
-            biletAlEntity.setUserId(userController.getUserId());
+            biletAlEntity.setUserId(GlobalUserId.getInstance().getUserId());
             BiletAlEntity savedEntity = biletAlRepository.save(biletAlEntity);
             System.out.println(biletAlEntity.toString());
             return new ResponseEntity<>(savedEntity, HttpStatus.CREATED);
@@ -59,6 +58,29 @@ public class BiletAlController {
 
         BiletAlEntity updatedBiletAl = biletAlRepository.save(biletAl);
         return ResponseEntity.ok(updatedBiletAl);
+    }
+
+    @PutMapping("/save")
+    public ResponseEntity<BiletAlEntity> updateSeatsSelection(@RequestBody BiletAlEntity biletAlEntity) {
+        try {
+            System.out.println(biletAlEntity.toString());
+            Optional<BiletAlEntity> optionalEntity = biletAlRepository.findTopByOrderByIdDesc();
+            optionalEntity.ifPresent(existingEntity -> {
+                Optional.ofNullable(biletAlEntity.getSecilenKoltuklar()).ifPresent(existingEntity::setSecilenKoltuklar);
+                Optional.ofNullable(biletAlEntity.getSecilenSinema()).ifPresent(existingEntity::setSecilenSinema);
+                Optional.ofNullable(biletAlEntity.getSecilenTarih()).ifPresent(existingEntity::setSecilenTarih);
+                Optional.ofNullable(biletAlEntity.getSecilenSeans()).ifPresent(existingEntity::setSecilenSeans);
+                Optional.ofNullable(biletAlEntity.getOgrenciBiletSayisi()).ifPresent(existingEntity::setOgrenciBiletSayisi);
+                Optional.ofNullable(biletAlEntity.getTamBiletSayisi()).ifPresent(existingEntity::setTamBiletSayisi);
+                biletAlRepository.save(existingEntity);
+            });
+            return optionalEntity.map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
