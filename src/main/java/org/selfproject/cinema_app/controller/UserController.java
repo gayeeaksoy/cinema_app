@@ -69,4 +69,30 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/users/{username}")
+    public ResponseEntity<?> deleteUserByName(@PathVariable String username) {
+        Optional<UserEntity> userOptional = userRepository.findByName(username);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            userRepository.deleteById(user.getId());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/api/users/{username}")
+    public ResponseEntity<UserEntity> updateUser(@PathVariable String username, @RequestBody UserEntity userEntity) {
+        Optional<UserEntity> userOptional = userRepository.findByName(username);
+        if (userOptional.isPresent()) {
+            UserEntity user = userOptional.get();
+            user.setEmail(userEntity.getEmail());
+            user.setPassword(userEntity.getPassword());
+            user.setFavoriteList(userEntity.getFavoriteList());
+            return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
