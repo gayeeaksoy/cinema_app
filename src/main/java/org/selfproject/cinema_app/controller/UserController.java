@@ -23,6 +23,17 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/api/users")
+    public ResponseEntity<?> getUserById() {
+        Long userId = GlobalUserId.getInstance().getUserId(); // Assuming you have a method to retrieve the user ID
+        Optional<UserEntity> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            return ResponseEntity.ok(userOptional.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
     @PostMapping("/api/users/signup")
     public ResponseEntity<UserEntity> userSignup(@RequestBody UserEntity userEntity){
         return new ResponseEntity<>(userRepository.save(userEntity), HttpStatus.CREATED);
@@ -81,6 +92,20 @@ public class UserController {
         }
     }
 
+    @PostMapping("/api/users/logout")
+    public ResponseEntity<?> userLogout() {
+        GlobalUserId.getInstance().setUserId(null);
+        System.out.println(GlobalUserId.getInstance().getUserId());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/api/users/delete")
+    public ResponseEntity<?> deleteUserByName2() {
+        Long userId = GlobalUserId.getInstance().getUserId(); // Assuming you have a method to retrieve the user ID
+        userRepository.deleteById(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @PutMapping("/api/users/{username}")
     public ResponseEntity<UserEntity> updateUser(@PathVariable String username, @RequestBody UserEntity userEntity) {
         Optional<UserEntity> userOptional = userRepository.findByName(username);
@@ -94,5 +119,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 
 }
