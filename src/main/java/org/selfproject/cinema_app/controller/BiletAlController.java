@@ -9,6 +9,7 @@ import org.selfproject.cinema_app.model.GlobalUserId;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins="http://localhost:3000")
 @RestController
@@ -81,6 +82,13 @@ public class BiletAlController {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/getSeatsBySelections")
+    public ResponseEntity<List<String>> getOccupiedSeats(@RequestBody BiletAlEntity biletAlEntity) {
+        List<BiletAlEntity> matchingEntities = biletAlRepository.findBySelections(biletAlEntity.getSecilenFilm(), biletAlEntity.getSecilenSinema(), biletAlEntity.getSecilenTarih(), biletAlEntity.getSecilenSeans());
+        List<String> secilenKoltuklarList = matchingEntities.stream().map(BiletAlEntity::getSecilenKoltuklar).collect(Collectors.toList());
+        return new ResponseEntity<>(secilenKoltuklarList, HttpStatus.OK);
     }
 
 
